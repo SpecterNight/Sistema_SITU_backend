@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Person {
+  id             Int      @id @default(autoincrement())
+  externalID     String   @unique @default(uuid())
+  name           String
+  last_name      String
+  identification String   @unique
+  phone          String
+  account        Account?
+  buses          Bus[]
+}
+
+model Account {
+  id         Int    @id @default(autoincrement())
+  externalID String @unique @default(uuid())
+  username   String @unique
+  password   String
+  person     Person @relation(fields: [personID], references: [id], onDelete: Cascade)
+  personID   Int    @unique
+  rolId      Int
+  rol        Rol    @relation(fields: [rolId], references: [id])
+}
+
+model Card {
+  id           Int           @id @default(autoincrement())
+  externalID   String        @unique @default(uuid())
+  code         String        @unique
+  balance      Decimal
+  status       Boolean
+  transactions Transaction[]
+}
+
+model Transaction {
+  id               Int            @id @default(autoincrement())
+  externalID       String         @unique @default(uuid())
+  date             DateTime       @default(now())
+  amount           Decimal
+  type             String
+  balance          Decimal
+  card             Card           @relation(fields: [cardID], references: [id], onDelete: Cascade)
+  cardID           Int
+  recharge_pointID Int
+  recharge_point   Recharge_point @relation(fields: [recharge_pointID], references: [id])
+}
+
+model Recharge_point {
+  id           Int           @id @default(autoincrement())
+  externalID   String        @unique @default(uuid())
+  place        String
+  transactions Transaction[]
+}
+
+model Rol {
+  id          Int       @id @default(autoincrement())
+  externalID  String    @unique @default(uuid())
+  description String
+  Account     Account[]
+}
+
+model Bus {
+  id         Int      @id @default(autoincrement())
+  externalID String   @unique @default(uuid())
+  seats      Int
+  plate      String   @unique
+  persons    Person[]
+}
