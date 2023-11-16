@@ -29,6 +29,9 @@ router.post("/account/signUp", async (req, res)=>{
                 }
             }
         }
+    }).then((data)=>{
+       data = excluirCampos(data,['id','account.id','account.password'])
+       res.json({msj:"Cuenta creada",data:data}) 
     })
 })
 
@@ -74,5 +77,9 @@ router.get('/account/:external_id',(req,res)=>{
         if(!data) return res.status(400).json({msj:"Error al obtener la cuenta", error:"Cuenta no encontrada"});
         data = excluirCampos(user,['id','password','rol.id','person.id']);
         res.json({msg:"OK",data:data});
+    })
+    .catch((error)=>{
+        console.log(error);
+        res.status(500).json({ msj: "Error al registrar la cuenta", error: error });
     })
 })
