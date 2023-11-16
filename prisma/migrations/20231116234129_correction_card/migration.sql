@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `Card` MODIFY `balance` DECIMAL(65, 30) NOT NULL DEFAULT 1,
+    MODIFY `status` BOOLEAN NOT NULL DEFAULT true;
