@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { prisma } from "../db"
+import { prisma } from "../db.js"
 const router = Router();
 
-roouter.post('/recharge_point/create',async(req,res)=>{
+router.post('/recharge_point/create',async(req,res)=>{
     prisma.recharge_point.create({
         data:req.body
     }).then((data)=>{

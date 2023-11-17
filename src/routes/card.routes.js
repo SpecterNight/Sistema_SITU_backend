@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { prisma } from "../db"
-import { validateFormatRegisterCard } from "../logic/cardLogic";
+import { prisma } from "../db.js"
+import { validateFormatRegisterCard } from "../logic/cardLogic.js";
 const router = Router();
 
 //Crear una tarjeta para una persona por external_id persona

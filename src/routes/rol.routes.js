@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { prisma } from "../db";
+import { prisma } from "../db.js";
 
 const router = Router();
 
-router.post('/rol/crete', async (req, res) => {
+router.post('/rol/create', async (req, res) => {
     prisma.rol.create({
         data: req.body
     }).then((data) => {

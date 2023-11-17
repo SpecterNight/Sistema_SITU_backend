@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { prisma } from "../db";
-import { validateBusForm } from "../logic/busLogic";
-import { excluirCampos } from "../logic/exclusionLogic";
+import { prisma } from "../db.js";
+import { validateBusForm } from "../logic/busLogic.js";
+import { excluirCampos } from "../logic/exclusionLogic.js";
 
 const router = Router();
 

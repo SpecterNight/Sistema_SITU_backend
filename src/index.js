@@ -23,6 +23,6 @@ app.use('/api/v1',rechargePointRoutes)
 app.use('/api/v1',busRoutes)
 app.use('/api/v1',rolRoutes)
 
-app.listen(3000)
+app.listen(3006)
 
-console.log('Server on port',3000)
+console.log('Server on port',3006)
