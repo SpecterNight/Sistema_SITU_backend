@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../db";
 import { validateBusForm } from "../logic/busLogic";
+import { excluirCampos } from "../logic/exclusionLogic";
 
 const router = Router();
 
@@ -20,11 +21,21 @@ router.post('/bus/register',async(req,res)=>{
     })
 })
 
-/*router.put('/bus/addPassenger',async(req,res)=>{
+router.put('/bus/addPassenger',async(req,res)=>{
     const {external_id_bus} = req.body;
     prisma.bus.update({
 
     })
-})*/
+})
+
+router.get('/bus/list',async(req, res)=>{
+    var buses = await prisma.bus.findMany({
+        include:{
+            persons:true
+        }
+    })
+    buses = excluirCampos(buses,['id','person.id'])
+    return res.json({msg:"OK",data:buses})
+})
 
 export default router;
