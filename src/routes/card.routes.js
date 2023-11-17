@@ -26,3 +26,61 @@ router.post('/card/registe/', async (req,res)=>{
         res.status(500).json({ msj: "Error al registrar tarjeta", error: error });
     })
 })
+
+router.put('/card/deduct/',async(req,res)=>{
+    const {external_id_card,amount} = req.body
+    prisma.card.update({
+        where:{
+            externalID:external_id_card
+        },
+        data:{
+            balance:{
+                decrement: amount
+            }
+        }
+    }).then((data)=>{
+        if(!data) return res.status(400).json({msj:"Error", error:"No se desconto"});
+        prisma.transaction.create({
+            data:{
+                date:{getDate},
+                amount:amount,
+                type:'Descuento',
+                balance: data.balance
+            }
+        })
+        res.json({msg:"OK",data:data});
+    })
+    .catch((error)=>{
+        console.log(error);
+        res.status(500).json({ msj: "Error al descontar", error: error });
+    })
+})
+
+router.put('/card/recharge/',async(req,res)=>{
+    const {external_id_card,amount} = req.body
+    prisma.card.update({
+        where:{
+            externalID:external_id_card
+        },
+        data:{
+            balance:{
+                increment: amount
+            }
+        }
+    }).then((data)=>{
+        if(!data) return res.status(400).json({msj:"Error", error:"No se recargo"});
+        prisma.transaction.create({
+            data:{
+                date:{getDate},
+                amount:amount,
+                type:'Recarga',
+                balance: data.balance
+            }
+        })
+        res.json({msg:"OK",data:data});
+    })
+    .catch((error)=>{
+        console.log(error);
+        res.status(500).json({ msj: "Error al recargar", error: error });
+    })
+})
