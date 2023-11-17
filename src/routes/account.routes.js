@@ -28,6 +28,7 @@ router.post("/account/signUp", async (req, res)=>{
                     }
                 }
             }
+
         }
     }).then((data)=>{
        data = excluirCampos(data,['id','account.id','account.password'])
@@ -35,7 +36,7 @@ router.post("/account/signUp", async (req, res)=>{
     })
 })
 
-router.post('/account/login',(req,res)=>{
+router.post('/account/login', async (req,res)=>{
     const {username,password}=req.body;
     prisma.account.findUnique({
         where:{
