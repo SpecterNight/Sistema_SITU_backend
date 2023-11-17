@@ -1,8 +1,10 @@
-import { prisma } from "../db";
-import { validateRegistrationForm } from "../logic/accountLogic"
+import { prisma } from "../db.js";
+import { validateRegistrationForm } from "../logic/accountLogic.js"
 import bcryp from "bcrypt"
 import jwt from "jsonwebtoken"
-import { excluirCampos } from "../logic/exclusionLogic";
+import { excluirCampos } from "../logic/exclusionLogic.js";
+import { Router } from "express";
+const router = Router();
 
 router.post("/account/signUp", async (req, res)=>{
     const {error} = validateRegistrationForm(req);
@@ -84,3 +86,5 @@ router.get('/account/:external_id',(req,res)=>{
         res.status(500).json({ msj: "Error al registrar la cuenta", error: error });
     })
 })
+
+export default router;

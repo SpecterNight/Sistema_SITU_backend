@@ -1,6 +1,7 @@
+import { Router } from "express";
 import { prisma } from "../db"
 import { validateFormatRegisterCard } from "../logic/cardLogic";
-
+const router = Router();
 
 //Crear una tarjeta para una persona por external_id persona
 router.post('/card/registe/', async (req,res)=>{
@@ -28,7 +29,7 @@ router.post('/card/registe/', async (req,res)=>{
 })
 
 router.put('/card/deduct/',async(req,res)=>{
-    const {external_id_card,amount} = req.body
+    const {external_id_card,external_id_rp,amount} = req.body
     prisma.card.update({
         where:{
             externalID:external_id_card
@@ -45,7 +46,10 @@ router.put('/card/deduct/',async(req,res)=>{
                 date:{getDate},
                 amount:amount,
                 type:'Descuento',
-                balance: data.balance
+                balance: data.balance,
+                recharge_point:{
+                    connect
+                }
             }
         })
         res.json({msg:"OK",data:data});
@@ -84,3 +88,5 @@ router.put('/card/recharge/',async(req,res)=>{
         res.status(500).json({ msj: "Error al recargar", error: error });
     })
 })
+
+export default router;
