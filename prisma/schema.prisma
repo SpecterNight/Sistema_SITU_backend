@@ -19,6 +19,7 @@ model Person {
   phone          String
   account        Account?
   buses          Bus[]
+  Card           Card?
 }
 
 model Account {
@@ -38,6 +39,8 @@ model Card {
   code         String        @unique
   balance      Decimal       @default(1)
   status       Boolean       @default(true)
+  person       Person        @relation(fields: [personID], references: [id], onDelete: Cascade)
+  personID     Int           @unique
   transactions Transaction[]
 }
 
